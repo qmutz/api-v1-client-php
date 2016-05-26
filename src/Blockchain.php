@@ -25,7 +25,6 @@ use \Blockchain\Create\Create;
 use \Blockchain\Explorer\Explorer;
 use \Blockchain\PushTX\Push;
 use \Blockchain\Rates\Rates;
-use \Blockchain\Receive\Receive;
 use \Blockchain\Stats\Stats;
 use \Blockchain\Wallet\Wallet;
 
@@ -69,7 +68,6 @@ class Blockchain {
         $this->Explorer  = new Explorer($this);
         $this->Push      = new Push($this);
         $this->Rates     = new Rates($this);
-        $this->Receive   = new Receive($this);
         $this->ReceiveV2 = new ReceiveV2($this->ch);
         $this->Stats     = new Stats($this);
         $this->Wallet    = new Wallet($this);
