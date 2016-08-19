@@ -82,6 +82,9 @@ class Blockchain {
     }
 
     public function setServiceUrl($service_url) {
+        if (substr($service_url, -1, 1) != '/'){
+            $service_url = $service_url . '/';
+        }
         $this->service_url = $service_url;
     }
 
