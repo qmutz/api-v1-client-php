@@ -46,16 +46,49 @@ class Explorer {
         return new Transaction($this->blockchain->get('rawtx/' . intval($index), array('format'=>'json')));
     }
 
+    public function getBase58Address($address, $limit=50, $offset=0, $filter=FilterType::RemoveUnspendable) {
+        return getAddress($address, $limit, $offset, $filter);
+    }
+
+    public function getHash160Address($address, $limit=50, $offset=0, $filter=FilterType::RemoveUnspendable) {
+        return getAddress($address, $limit, $offset, $filter);
+    }
+
     /*     Get details about a single address, listing up to $limit transactions
          starting at $offset.
     */
-    public function getAddress($address, $limit=50, $offset=0) {
+    public function getAddress($address, $limit=50, $offset=0, $filter=FilterType::RemoveUnspendable) {
         $params = array(
             'format'=>'json',
             'limit'=>intval($limit),
-            'offset'=>intval($offset)
+            'offset'=>intval($offset),
+            'filter'=>intval($filter)
         );
         return new Address($this->blockchain->get('address/' . $address, $params));
+    }
+
+    public function getXpub($xpub, $limit=100, $offset=0, $filter=FilterType::RemoveUnspendable) {
+        $params = array(
+            'format'=>'json',
+            'limit'=>intval($limit),
+            'offset'=>intval($offset),
+            'filter'=>intval($filter)
+        );
+        return new Xpub($this->blockchain->get('multiaddr/' . $params));
+    }
+
+    public function getMultiAddress($addresses, $limit=100, $offset=0, $filter=FilterType::RemoveUnspendable) {
+        if(!is_array($addresses))
+            throw new FormatError('Must pass array argument.');
+
+        $params = array(
+            'format'=>'json',
+            'limit'=>intval($limit),
+            'offset'=>intval($offset),
+            'filter'=>intval($filter),
+            'active'=>implode('|', $addresses)
+        );
+        return new MultiAddress($this->blockchain->get('multiaddr/' . $params));
     }
 
     /* Get a list of unspent outputs for an array of addresses
