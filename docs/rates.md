@@ -29,7 +29,10 @@ $rates = $Blockchain->Rates->get();
 foreach($rates as $cur=>$ticker) { ... }
 ```
 
-###Ticker
+Response Object Properties
+--------------------------
+
+### Ticker
 
 ```php
 class Ticker {

@@ -13,7 +13,10 @@ $Blockchain = new \Blockchain\Blockchain($api_code);
 $stats = $Blockchain->Stats->get();
 ```
 
-###StatsReponse
+Response Object Properties
+--------------------------
+
+### StatsReponse
 
 ```php
 class StatsResponse {
