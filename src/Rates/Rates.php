@@ -33,4 +33,14 @@ class Rates
 
         return $this->blockchain->get('tobtc', $params);
     }
+
+    public function fromBTC($amount, $symbol = '')
+    {
+        $params = array(
+            'currency' => $symbol,
+            'value' => $amount
+        );
+
+        return $this->blockchain->get('frombtc', $params);
+    }
 }

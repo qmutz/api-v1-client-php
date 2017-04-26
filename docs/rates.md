@@ -17,6 +17,18 @@ Get the amount of Bitcoin that could be purchased for a given fiat amount. Retur
 $btc_amount = $Blockchain->Rates->toBTC(500, 'USD');
 ```
 
+Convert Bitcoin to Fiat Currency
+--------------------------------
+Get the amount of a given fiat currency for a given bitcoin amount (in satoshi). Returns a `float`.
+
+```php
+/*
+* Optional param:
+* $symbol - the fiat currency to convert to ('USD' by default)
+*/
+$one_btc_in_usd = $Blockchain->Rates->fromBTC(100000000);
+```
+
 
 Get Rates
 ---------

@@ -72,7 +72,7 @@ Get data for an array Base58Check and / or xPub addresses. Returns a `MultiAddre
 * $offset - used to get more than the max possible number of transactions (default 0)
 * $filter - filter option when getting transactions (default FilterType::RemoveUnspendable)
 */
-$multi_addr = $Blockchain->Explorer.getMultiAddress([$addr1, $addr2, $addr3])
+$multi_addr = $Blockchain->Explorer.getMultiAddress(array($addr1, $addr2, $addr3))
 ```
 
 
@@ -85,7 +85,7 @@ Get an array of `UnspentOutput` objects for an array of addresses.
 * $confirmations - show transactions with minimum number of confirmations (default 0)
 * $limit - max number of transactions to get (default 100, max 100)
 */
-$unspent = $Blockchain->Explorer->getUnspentOutputs([$addr1, $addr2, $addr3]);
+$unspent = $Blockchain->Explorer->getUnspentOutputs(array($addr1, $addr2, $addr3));
 ```
 
 
