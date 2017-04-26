@@ -30,17 +30,19 @@ class Explorer {
     }
 
     public function getBlockByIndex($index) {
+        trigger_error("getBlockByIndex is deprecated. Please use getBlock (by hash) whenever possible.", E_USER_DEPRECATED);
         if(!is_integer($index)) {
             throw new FormatError('Block index must be iteger.');
         }
         return new Block($this->blockchain->get('block-index/' . $index, array('format'=>'json')));
     }
 
-    public function getTransaction($txid) {
-        return new Transaction($this->blockchain->get('rawtx/' . $txid, array('format'=>'json')));
+    public function getTransaction($hash) {
+        return new Transaction($this->blockchain->get('rawtx/' . $hash, array('format'=>'json')));
     }
 
     public function getTransactionByIndex($index) {
+        trigger_error("getTransactionByIndex is deprecated. Please use getTransaction (by hash) whenever possible.", E_USER_DEPRECATED);
         return new Transaction($this->blockchain->get('rawtx/' . intval($index), array('format'=>'json')));
     }
 
