@@ -204,16 +204,3 @@ class SimpleBlock {
     public $main_chain;                 // bool
 }
 ```
-
-### InventoryData
-```php
-class InventoryData {
-    public $hash;                       // string
-    public $type;                       // string
-    public $initial_time;               // int
-    public $initial_ip;                 // string
-    public $nconnected;                 // int
-    public $relayed_count;              // int
-    public $relayed_percent;            // int
-}
-```

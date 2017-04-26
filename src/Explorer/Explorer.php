@@ -113,8 +113,4 @@ class Explorer {
         }
         return $blocks;
     }
-
-    public function getInventoryData($hash) {
-        return new InventoryData($this->blockchain->get('inv/'.$hash, array('format'=>'json')));
-    }
 }
