@@ -61,11 +61,14 @@ class Explorer {
     /* Get a list of unspent outputs for an array of addresses
 
     */
-    public function getUnspentOutputs($addresses) {
+    public function getUnspentOutputs($addresses, $confirmations=0, $limit=250) {
         if(!is_array($addresses))
             throw new FormatError('Must pass array argument.');
+
         $params = array(
             'format'=>'json',
+            'limit'=>intval($limit),
+            'confirmations'=>intval($confirmations),
             'active'=>implode('|', $addresses)
         );
         $json = $this->blockchain->get('unspent', $params);
