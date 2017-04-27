@@ -29,7 +29,6 @@ Get the amount of a given fiat currency for a given bitcoin amount (in satoshi).
 $one_btc_in_usd = $Blockchain->Rates->fromBTC(100000000);
 ```
 
-
 Get Rates
 ---------
 Get a set of exchange rate tickers for various currencies. Returns an associative array with the currency code for keys and `Ticker` objects for values.
