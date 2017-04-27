@@ -29,6 +29,6 @@ class Stats {
             'timespan' => $timespan . 'days'
         );
 
-        return array($this->blockchain->get('pools', $params));
+        return $this->blockchain->get('pools', $params);
     }
 }
