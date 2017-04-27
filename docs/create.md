@@ -43,6 +43,6 @@ The `WalletResponse` object contains fields for the wallet identifier (`guid`), 
 class WalletResponse {
     public $guid;                       // string
     public $address;                    // string
-    public $label;                       // string
+    public $label;                      // string
 }
 ```

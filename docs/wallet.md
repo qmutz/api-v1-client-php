@@ -70,27 +70,25 @@ Send Bitcoin to a single recipient address. The `$amount` field is either a `flo
 
 The optional `$from_address` field specifies which wallet address from which to send the funds. An optional `$fee` amount (`float`) may be specified but must be more than the default fee listed on the [official documentation](https://blockchain.info/api/blockchain_wallet_api).
 
-The `$public_note` parameter is a message that will appear alongside this transaction on the blockchain.info block explorer. A minimum transaction size of 0.005 BTC is required for public notes.
-
 Returns a `PaymentResponse` object on success and throws a `Blockchain_ApiError` exception for insufficient funds, etc.
 
 ```php
-$response = $Blockchain->Wallet->send($to_address, $amount, $from_address=null, $fee=null, $public_note=null);
+$response = $Blockchain->Wallet->send($to_address, $amount, $from_address=null, $fee=null);
 
-// Example: Send 0.005 BTC to the Genesis of Bitcoin address, with a 0.0001 BTC fee and a public note
-$response = $Blockchain->Wallet->send("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", "0.005", null, "0.0001", "Here you go, Satoshi!");
+// Example: Send 0.005 BTC to the Genesis of Bitcoin address, with a 0.0001 BTC fee
+$response = $Blockchain->Wallet->send("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", "0.005", null, "0.0001");
 ```
 
 ### SendMany
 Send a multi-recipient transaction to many addresses at once. The `$recipients` parameter is an associative array with `address` keys and `amount` values (see example). Optional parameters are the same as with the `send` call. Returns `PaymentResponse` object and throws a `Blockchain_ApiError` exception for insufficient funds, etc.
 ```php
-$response = $Blockchain->Wallet->sendMany($recipients, $from_address=null, $fee=null, $public_note=null);
+$response = $Blockchain->Wallet->sendMany($recipients, $from_address=null, $fee=null);
 
 // Example: the following produces the same transaction as the previous example.
 $recipients = array(
     "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" => "0.005"
 );
-$response = $Blockchain->Wallet->sendMany($recipients, null, "0.0001", "Here you go, Satoshi!");
+$response = $Blockchain->Wallet->sendMany($recipients, null, "0.0001");
 ```
 
 
