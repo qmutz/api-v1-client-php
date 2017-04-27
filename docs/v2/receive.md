@@ -56,3 +56,37 @@ To check the index gap between the last address paid to and the last address gen
 ```php
 $gap_int = $blockchain->ReceiveV2->checkAddressGap($apiKey, $xpub);
 ```
+
+
+Response Object Properties
+--------------------------
+
+### ReceiveResponse
+
+```php
+class ReceiveResponse {
+    private $address;            // string
+    private $index;              // int
+    private $callback;           // string
+
+    public function getReceiveAddress();
+    public function getIndex();
+    public function getCallback();
+}
+```
+
+### CallbackLogEntry
+
+```php
+class CallbackLogEntry {
+    private $callback;          // string
+    private $calledAt;          // DateTime
+    private $rawResponse;       // string
+    private $responseCode;      // int
+
+    public function getCallback();
+    public function getCalledAt();
+    public function getResponse();
+    public function getResponseCode();
+}
+```
