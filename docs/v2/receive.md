@@ -8,6 +8,9 @@ Be sure to check out the [official documentation](https://blockchain.info/api/ap
 Usage
 -----
 
+Generate
+--------
+
 Call `ReceiveV2->generate` on a `Blockchain` object. Pass a v2 API key, xpub and callback URL. Returns a `ReceiveResponse` object.
 
 ```php
@@ -16,12 +19,16 @@ $blockchain = new \Blockchain\Blockchain($apiKey);
 $v2ApiKey = 'myApiKey';
 $xpub = 'xpubYourXPub';
 $callbackUrl = 'http://example.com/transaction?secret=mySecret';
+$gap_limit = 5 // optional - how many unused addresses are allowed before erroring out
 
-$response = $blockchain->ReceiveV2->generate($v2ApiKey, $xPub, $callbackUrl);
+$response = $blockchain->ReceiveV2->generate($v2ApiKey, $xPub, $callbackUrl, $gap_limit);
 
 // Show receive address to user:
 echo "Send coins to " . $response->getReceiveAddress();
 ```
+
+Callback Logs
+-------------
 
 To view the callback logs call `ReceiveV2->callbackLogs` on a `Blockchain` object. Pass an API key and callback URL. Returns an array of `CallbackLogEntry` objects.
 
@@ -31,7 +38,7 @@ $blockchain = new \Blockchain\Blockchain($apiKey);
 $v2ApiKey = 'myApiKey';
 $callbackUrl = 'http://example.com/transaction?secret=mySecret';
 
-$logs = $blockchain->ReceiveV2->callback($apiKey, $callbackUrl);
+$logs = $blockchain->ReceiveV2->callbackLogs($apiKey, $callbackUrl);
 
 foreach ($logs as $log) {
     $log->getCallback();
@@ -39,4 +46,13 @@ foreach ($logs as $log) {
     $log->getResponseCode();
     $log->getResponse();
 }
+```
+
+Check Address Gap
+-----------------
+
+To check the index gap between the last address paid to and the last address generated call `ReceiveV2->checkAddressGap` on a `Blockchain` object. Returns an `int`.
+
+```php
+$gap_int = $blockchain->ReceiveV2->checkAddressGap($apiKey, $xpub);
 ```
