@@ -51,7 +51,7 @@ class Explorer {
     }
 
     public function getHash160Address($address, $limit=50, $offset=0, $filter=FilterType::RemoveUnspendable) {
-        return getAddress($address, $limit, $offset, $filter);
+        return $this->getAddress($address, $limit, $offset, $filter);
     }
 
     /*     Get details about a single address, listing up to $limit transactions
