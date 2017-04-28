@@ -47,7 +47,7 @@ class Explorer {
     }
 
     public function getBase58Address($address, $limit=50, $offset=0, $filter=FilterType::RemoveUnspendable) {
-        return getAddress($address, $limit, $offset, $filter);
+        return $this->getAddress($address, $limit, $offset, $filter);
     }
 
     public function getHash160Address($address, $limit=50, $offset=0, $filter=FilterType::RemoveUnspendable) {
