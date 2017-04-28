@@ -22,5 +22,6 @@ class Xpub extends Address
             $this->change_index = $json['account_index'];
         if (array_key_exists('gap_limit', $json))
             $this->change_index = $json['gap_limit'];
+        Address::__construct($json);
     }
 }

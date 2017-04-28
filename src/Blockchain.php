@@ -101,7 +101,7 @@ class Blockchain {
         curl_setopt($this->ch, CURLOPT_URL, $url.$resource);
         curl_setopt($this->ch, CURLOPT_POST, true);
 
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, 
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER,
             array("Content-Type: application/x-www-form-urlencoded"));
 
         if(!is_null($this->api_code)) {
@@ -120,7 +120,7 @@ class Blockchain {
         return $json;
     }
 
-    public function get($resource, $params=null) {
+    public function get($resource, $params=array()) {
         $url = Blockchain::URL;
 
         if (($resource == "api/v2/create") || (substr($resource, 0, 8) === "merchant")) {
