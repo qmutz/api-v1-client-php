@@ -74,7 +74,7 @@ class Explorer {
             'offset'=>intval($offset),
             'filter'=>intval($filter)
         );
-        return new Xpub($this->blockchain->get('multiaddr/' . $params));
+        return new Xpub($this->blockchain->get('multiaddr?' . $params));
     }
 
     public function getMultiAddress($addresses, $limit=100, $offset=0, $filter=FilterType::RemoveUnspendable) {
@@ -88,7 +88,7 @@ class Explorer {
             'filter'=>intval($filter),
             'active'=>implode('|', $addresses)
         );
-        return new MultiAddress($this->blockchain->get('multiaddr/' . $params));
+        return new MultiAddress($this->blockchain->get('multiaddr?' . $params));
     }
 
     /* Get a list of unspent outputs for an array of addresses

@@ -1,5 +1,7 @@
 <?php
 
+namespace Blockchain\Explorer;
+
 class FilterType
 {
     const All = 4;
