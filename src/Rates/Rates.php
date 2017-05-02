@@ -38,7 +38,8 @@ class Rates
     {
         $params = array(
             'currency' => $symbol,
-            'value' => $amount
+            'value' => $amount,
+            'format' => 'json'
         );
 
         return $this->blockchain->get('frombtc', $params);

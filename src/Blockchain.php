@@ -151,7 +151,10 @@ class Blockchain {
         }
         $json = json_decode($response, true);
         if(is_null($json)) {
-            throw new Error("Unable to decode JSON response from Blockchain: " . $response);
+            // this is possibly a from btc request with a comma separation
+            $json = json_decode(str_replace(',', '', $response));
+            if (is_null($json))
+                throw new Error("Unable to decode JSON response from Blockchain: " . $response);
         }
 
         if(self::DEBUG) {
