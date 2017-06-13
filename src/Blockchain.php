@@ -101,7 +101,7 @@ class Blockchain {
         curl_setopt($this->ch, CURLOPT_URL, $url.$resource);
         curl_setopt($this->ch, CURLOPT_POST, true);
 
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, 
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER,
             array("Content-Type: application/x-www-form-urlencoded"));
 
         if(!is_null($this->api_code)) {
@@ -120,7 +120,7 @@ class Blockchain {
         return $json;
     }
 
-    public function get($resource, $params=null) {
+    public function get($resource, $params=array()) {
         $url = Blockchain::URL;
 
         if (($resource == "api/v2/create") || (substr($resource, 0, 8) === "merchant")) {
@@ -151,7 +151,10 @@ class Blockchain {
         }
         $json = json_decode($response, true);
         if(is_null($json)) {
-            throw new Error("Unable to decode JSON response from Blockchain: " . $response);
+            // this is possibly a from btc request with a comma separation
+            $json = json_decode(str_replace(',', '', $response));
+            if (is_null($json))
+                throw new Error("Unable to decode JSON response from Blockchain: " . $response);
         }
 
         if(self::DEBUG) {

@@ -44,7 +44,7 @@ class Wallet {
 
     private function call($resource, $params=array()) {
         $this->_checkCredentials();
-        return $this->blockchain->post($this->url($resource), $this->reqParams($params)); 
+        return $this->blockchain->post($this->url($resource), $this->reqParams($params));
     }
 
     public function getIdentifier() {
@@ -56,12 +56,12 @@ class Wallet {
         return \Blockchain\Conversion\Conversion::BTC_int2str($json['balance']);
     }
 
-    public function getAddressBalance($address, $confirmations=0) {
-        return new WalletAddress($this->call('address_balance', array('address'=>$address, 'confirmations'=>$confirmations)));
+    public function getAddressBalance($address) {
+        return new WalletAddress($this->call('address_balance', array('address'=>$address)));
     }
 
-    public function getAddresses($confirmations=0) {
-        $json = $this->call('list', array('confirmations'=>$confirmations));
+    public function getAddresses() {
+        $json = $this->call('list');
         $addresses = array();
         foreach ($json['addresses'] as $address) {
             $addresses[] = new WalletAddress($address);
@@ -97,7 +97,7 @@ class Wallet {
         return false;
     }
 
-    public function send($to_address, $amount, $from_address=null, $fee=null, $public_note=null) {
+    public function send($to_address, $amount, $from_address=null, $fee=null) {
         if(!isset($amount))
             throw new ParameterError("Amount required.");
 
@@ -109,13 +109,11 @@ class Wallet {
             $params['from'] = $from_address;
         if(!is_null($fee))
             $params['fee'] = \Blockchain\Conversion\Conversion::BTC_float2int($fee);
-        if(!is_null($public_note))
-            $params['note'] = $public_note;
-        
+
         return new PaymentResponse($this->call('payment', $params));
     }
 
-    public function sendMany($recipients, $from_address=null, $fee=null, $public_note=null) {
+    public function sendMany($recipients, $from_address=null, $fee=null) {
         $R = array();
         // Construct JSON by hand, preserving the full value of amounts
         foreach ($recipients as $address => $amount) {
@@ -130,9 +128,7 @@ class Wallet {
             $params['from'] = $from_address;
         if(!is_null($fee))
             $params['fee'] = \Blockchain\Conversion\Conversion::BTC_float2int($fee);
-        if(!is_null($public_note))
-            $params['note'] = $public_note;
-        
+
         return new PaymentResponse($this->call('sendmany', $params));
     }
 }

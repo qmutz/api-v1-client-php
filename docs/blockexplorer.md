@@ -9,45 +9,87 @@ $val = $Blockchain->Explorer->someFunc($param);
 ```
 
 
-###Blocks
+### Blocks
 
 Blocks may be queried in multiple ways: by the block hash, by the height in the blockchain, or by the block's index. Calls return `Block` objects. `getBlocksAtHeight` returns an array of `Block` objects.
 
 ```php
 $block = $Blockchain->Explorer->getBlock($hash);
 $blocks = $Blockchain->Explorer->getBlocksAtHeight($height_int);
-$block = $Blockchain->Explorer->getBlockByIndex($index_int);
+$block = $Blockchain->Explorer->getBlockByIndex($index_int) // deprecated;
 ```
 
 
-###Transactions
+### Transactions
 Get a single transaction based on hash or index. Returns a `Transaction` object.
 
 ```php
 $tx = $Blockchain->Explorer->getTransaction($hash);
-$tx = $Blockchain->Explorer->getTransactionByIndex($index);
+$tx = $Blockchain->Explorer->getTransactionByIndex($index) // deprecated;
 ```
 
 
-###Addresses
-Get the details of an address, including a paged list of transactions. Returns an `Address` object.
+### Addresses
+Get the details of a Base58Check or Hash160 address, including a paged list of transactions. Returns an `Address` object.
 
 ```php
-$limit = 50;
-$offset = 0;
-$address = $Blockchain->Explorer->getAddress($address, $limit, $offset);
+/*
+* Optional params:
+* $limit - max number of transactions to get (default 50, max 50)
+* $offset - used to get more than the max possible number of transactions (default 0)
+* $filter - filter option when getting transactions (default FilterType::RemoveUnspendable)
+*/
+
+/*
+* Functions are currently interchangeable but this is liable to change in the future
+*/
+$address = $Blockchain->Explorer->getHash160Address($address);
+$address = $Blockchain->Explorer->getBase58Address($address);
 ```
 
 
-###Unspent Outputs
-Get an array of `UnspentOutput` objects for a given address.
+### xPub
+Get summary of an xPub, with its overall balance and transactions. Returns an `Xpub` object.
 
 ```php
-$unspent = $Blockchain->Explorer->getUnspentOutputs($address);
+/*
+* Optional params:
+* $limit - max number of transactions to get (default 100, max 100)
+* $offset - used to get more than the max possible number of transactions (default 0)
+* $filter - filter option when getting transactions (default FilterType::RemoveUnspendable)
+*/
+$xpub_summary = $Blockchain->Explorer->getXpub($xpub);
 ```
 
 
-###Latest Block
+### MultiAddress
+Get data for an array Base58Check and / or xPub addresses. Returns a `MultiAddress` object.
+
+```php
+/*
+* Optional params:
+* $limit - max number of transactions to get (default 100, max 100)
+* $offset - used to get more than the max possible number of transactions (default 0)
+* $filter - filter option when getting transactions (default FilterType::RemoveUnspendable)
+*/
+$multi_addr = $Blockchain->Explorer.getMultiAddress(array($addr1, $addr2, $addr3))
+```
+
+
+### Unspent Outputs
+Get an array of `UnspentOutput` objects for an array of addresses.
+
+```php
+/*
+* Optional params:
+* $confirmations - show transactions with minimum number of confirmations (default 0)
+* $limit - max number of transactions to get (default 100, max 100)
+*/
+$unspent = $Blockchain->Explorer->getUnspentOutputs(array($addr1, $addr2, $addr3));
+```
+
+
+### Latest Block
 Get the latest block on the main chain. Returns a simpler `LatestBlock` object;
 
 ```php
@@ -55,7 +97,7 @@ $latest = $Blockchain->Explorer->getLatestBlock();
 ```
 
 
-###Unconfirmed Transactions
+### Unconfirmed Transactions
 Get a list of unconfirmed transactions. Returns an array of `Transaction` objects.
 
 ```php
@@ -63,7 +105,7 @@ $unconfirmed = $Blockchain->Explorer->getUnconfirmedTransactions();
 ```
 
 
-###Simple Blocks
+### Simple Blocks
 Get blocks from a particular day or from a given mining pool. Return arrays of `SimpleBlock` objects.
 
 ```php
@@ -73,20 +115,12 @@ $simple_blocks = $Blockchain->Explorer->getBlocksByPool($pool_name);
 For a list of mining pool names, visit [this page](https://blockchain.info/pools).
 
 
-###Inventory Data
-Gets data for recent blockchain entities, up to one hour old. Returns an `InventoryData` object.
-
-```php
-$data = $Blockchain->Explorer->getInventoryData($hash);
-```
-
-
-Return Objects
---------------
+Response Object Properties
+--------------------------
 
 Calls to the API return first-class objects.
 
-###Block
+### Block
 
 ```php
 class Block {
@@ -109,7 +143,7 @@ class Block {
 }
 ```
 
-###Transaction
+### Transaction
 ```php
 class Transaction {
     public $double_spend = false;       // bool
@@ -132,7 +166,7 @@ class Input {
     public $sequence;                   // int
     public $script_sig;                 // string
     public $coinbase = true;            // bool
-    
+
     // If coinbase is false, then the following fields are created
     public $n;                          // int
     public $value;                      // string, e.g. "12.64952835"
@@ -142,6 +176,14 @@ class Input {
     public $script;                     // string
     public $address_tag;                // string
     public $address_tag_link;           // string
+}
+```
+
+### MultiAddress
+```php
+class MultiAddress {
+    public $addresses                   // Array of Address objects
+    public $transactions                // Array of Transaction objects
 }
 ```
 
@@ -167,6 +209,15 @@ class Address {
     public $total_sent;                 // string, e.g. "12.64952835"
     public $final_balance;              // string, e.g. "12.64952835"
     public $transactions = array();     // Array of Transaction objects
+}
+```
+
+### Xpub
+```php
+class Xpub extends Address {
+    public $change_index                // int
+    public $account_index               // int
+    public $gap_limit                   // int
 }
 ```
 
@@ -205,15 +256,11 @@ class SimpleBlock {
 }
 ```
 
-### InventoryData
+### FilterType
 ```php
-class InventoryData {
-    public $hash;                       // string
-    public $type;                       // string
-    public $initial_time;               // int
-    public $initial_ip;                 // string
-    public $nconnected;                 // int
-    public $relayed_count;              // int
-    public $relayed_percent;            // int
+class FilterType {
+    const All = 4;
+    const ConfirmedOnly = 5;
+    const RemoveUnspendable = 6;
 }
 ```
