@@ -36,6 +36,6 @@ class Create {
         if(!is_null($label))
             $params['label'] = $label;
 
-        return new WalletResponse($this->blockchain->post('api/v2/create_wallet', $params));
+        return new WalletResponse($this->blockchain->post('api/v2/create', $params));
     }
 }
